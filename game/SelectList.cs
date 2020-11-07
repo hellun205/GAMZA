@@ -15,4 +15,10 @@ namespace GAMJA.game
 
     }
 
+    enum SelectIfExit
+    {
+        GAMEEXIT,
+        GOBACK
+    }
+
 }

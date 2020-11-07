@@ -10,7 +10,7 @@ namespace GAMJA.game
     class ingame
     {
         
-        static void MainText()
+        private static void MainText()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -21,13 +21,25 @@ namespace GAMJA.game
         }
 
         public static void Gameex()
-        {
-            SelectMain SM = GameMain();
-
-            if (SM == SelectMain.GAMESTART)
+        {           
+            
+_GameMain:  switch (GameMain())
             {
-                  
+                case SelectMain.GAMESTART:
+                    InGame();
+                    break;
+                case SelectMain.GAMEEXIT:
+                    
+                    switch (GameExit())
+                    {
+                        case SelectIfExit.GAMEEXIT:
+                            System.Environment.Exit(0);
+                            return;
+                        case SelectIfExit.GOBACK:
+                            goto _GameMain;                          
+                    }
 
+                    break;
             }
 
         }
@@ -58,12 +70,37 @@ namespace GAMJA.game
             }
         }
 
-        private static void Storys()
+        private static SelectIfExit GameExit()
+        {
+            while (true)
+            {
+                MainText();
+                Console.WriteLine("게임을 종료하시겠습니까?");
+                Console.WriteLine("1 . 게임 종료");
+                Console.WriteLine("2 . 뒤로 가기");
+
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.D1:
+                        return SelectIfExit.GAMEEXIT;
+                    case ConsoleKey.D2:
+                        return SelectIfExit.GOBACK;
+                    default:
+                        MainText();
+                        Console.WriteLine("잘못된 선택지 입니다.");
+                        Console.ReadKey();
+                        break;
+                }
+
+            }
+        }
+
+        private static void InGame()
         {
 
 
 
         }
 
-    }
+}
 }
