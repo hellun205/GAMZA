@@ -26,7 +26,7 @@ namespace GAMJA.game
 
             if (SM == SelectMain.GAMESTART)
             {
-
+                  
 
             }
 
