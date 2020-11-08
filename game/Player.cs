@@ -1,50 +1,80 @@
-﻿using static GAMJA.Game.ConsoleFunc;
-using static System.Console;
-using System;
-
-namespace GAMJA.Game
+﻿namespace GAMJA.Game
 {
   class Player
   {
-    public string Name { get; set; }
-    int maxHP;
-    int HP;
-    int maxMP;
-    int MP;
-    int AT;
+    private int maxHP;
+    private int HP;
+    private int maxMP;
+    private int MP;
+    private int level;
+    private int ATPerLevel;
+    private int ItemAT;
+    private int AT;
 
-    public void CharacterSetting()
+    public int MaxHP
     {
-      bool whileA = true;
-      while (whileA)
+      get => maxHP;
+      set
       {
-        Clear();
-        InGame.CWTitle();
-        WriteLine("지금부터 당신의 캐릭터를 생성합니다.");
-        
-        string _name = ReadTextScreen("캐릭터의 이름을 설정하시오.");
-        if (_name != "")
+        maxHP = value;
+        HP = value;
+      }
+    }
+
+    public int MaxMP
+    {
+      get => maxMP;
+      set
+      {
+        maxMP = value;
+        MP = value;
+      }
+    }
+
+    private int pATPerLevel
+    {
+      get => ATPerLevel;
+      set
+      {
+        ATPerLevel = value;
+        AT = pATPerLevel + pItemAT;
+      }
+    }
+
+    public int pItemAT
+    {
+      get => ItemAT;
+      set
+      {
+        ItemAT = value;
+        AT = pATPerLevel + pItemAT;
+      }
+    }
+
+    public int Level
+    {
+      get => level;
+      set
+      {
+        if (value <= 20 && value != 0)
         {
-          Name = _name;
-          whileA = false;
+          MaxHP = 50 + 30 * (value - 1);
+          MaxMP = 30 + 15 * (value - 1);
+          pATPerLevel = 10 + 5 * (value - 1);
+          level = value;
         }
       }
-
-      maxHP = 50;
-      HP = maxHP;
-      maxMP = 50;
-      MP = maxMP;
-      AT = 10;
-
-      Clear();
-      InGame.CWTitle();
-      WriteLine("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
-      WriteLineColor($"\t당신의 캐릭터의 능력치 ", ConsoleColor.Black, ConsoleColor.White);
-      WriteLineColor($"\t이름: {Name} ", ConsoleColor.Black, ConsoleColor.White);
-      WriteLineColor($"\tHP: {HP} ", ConsoleColor.Black, ConsoleColor.White);
-      WriteLineColor($"\tMP: {MP} ", ConsoleColor.Black, ConsoleColor.White);
-      WriteLineColor($"\t공격력: {AT} ", ConsoleColor.Black, ConsoleColor.White);
-      ReadKey();
     }
+
+    public string Name { get; set; }
+
+    public string GetInfo
+    {
+      get
+      {
+        return $"「{Name}」의 정보 \n  레벨 : {Level} \n  HP : {HP}/{MaxHP} \n  MP : {MP}/{MaxMP} \n  공격력 : {AT}";
+      }
+    }
+
   }
 }

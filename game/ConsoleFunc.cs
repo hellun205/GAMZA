@@ -7,7 +7,13 @@ namespace GAMJA.Game
   static class ConsoleFunc
   {
     public static string MainText = ConsoleText.GameMainText + "\n감자 MUD RPG 게임 v.0.01\n";
-    
+
+    public static void CWTitle()
+    {
+      Clear();
+      WriteLineColor(ConsoleText.GameTitleText, ConsoleColor.DarkBlue);
+    }
+
     public static int SelectScreen(string question, string[] answers, bool clearOnWrongAnswer = false)
     {
       if (answers.Length == 0 || answers.Length > 9)
