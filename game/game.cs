@@ -1,106 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GAMJA.game;
+using static GAMJA.Game.ConsoleFunc;
+using static System.Console;
 
-namespace GAMJA.game
+namespace GAMJA.Game
 {
-    class ingame
+  static class InGame
+  {
+
+    public static void GameEx()
     {
-        
-        private static void MainText()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(ConsoleText.GameMainText);
-            Console.ResetColor();
-            Console.WriteLine("감자 MUD RPG 게임 v.0.01");
-            Console.WriteLine("");            
-        }
+      Title = "GAMJA MUD RPG";
+      GameMain();
+    }
 
-        public static void Gameex()
-        {           
-            
-_GameMain:  switch (GameMain())
+    private static void GameMain()
+    {
+      while (true)
+      {        
+        switch (SelectScreen(MainText, new string[] { "게임 시작", "게임 종료" }, true))
+        {
+          case 1:
+            GameStart();
+            return;
+          case 2:
+            if (SelectScreen(MainText + "게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }, true) == 1)
             {
-                case SelectMain.GAMESTART:
-                    InGame();
-                    break;
-                case SelectMain.GAMEEXIT:
-                    
-                    switch (GameExit())
-                    {
-                        case SelectIfExit.GAMEEXIT:
-                            System.Environment.Exit(0);
-                            return;
-                        case SelectIfExit.GOBACK:
-                            goto _GameMain;                          
-                    }
-
-                    break;
+              Environment.Exit(0);
             }
-
+            break;
         }
+      }
 
-        private static SelectMain GameMain()
-        {
-            while (true)
-            {
-                MainText();                
-                Console.WriteLine("다음 선택지 중 선택 하시오.");
-                Console.WriteLine("1 . 게임 시작");
-                Console.WriteLine("2 . 게임 종료");
-                
-                switch (Console.ReadKey().Key)
-                {
-                    case ConsoleKey.D1:
-                        return SelectMain.GAMESTART;
-                    case ConsoleKey.D2:
-                        return SelectMain.GAMEEXIT;
-                    default:
-                        MainText();
-                        Console.WriteLine("잘못된 선택지 입니다.");
-                        Console.ReadKey();
-                        break;
+    }
 
-                }
+    static Player MyPlayer = new Player();
 
-            }
-        }
+    private static void GameStart()
+    {
+      MyPlayer.CharacterSetting();
 
-        private static SelectIfExit GameExit()
-        {
-            while (true)
-            {
-                MainText();
-                Console.WriteLine("게임을 종료하시겠습니까?");
-                Console.WriteLine("1 . 게임 종료");
-                Console.WriteLine("2 . 뒤로 가기");
-
-                switch (Console.ReadKey().Key)
-                {
-                    case ConsoleKey.D1:
-                        return SelectIfExit.GAMEEXIT;
-                    case ConsoleKey.D2:
-                        return SelectIfExit.GOBACK;
-                    default:
-                        MainText();
-                        Console.WriteLine("잘못된 선택지 입니다.");
-                        Console.ReadKey();
-                        break;
-                }
-
-            }
-        }
-
-        private static void InGame()
-        {
+    }
 
 
 
-        }
-
-}
+    public static void CWTitle()
+    {
+      Clear();
+      ForegroundColor = ConsoleColor.DarkBlue;
+      WriteLine(ConsoleText.GameTitleText);
+      ResetColor();
+    }
+  }
 }

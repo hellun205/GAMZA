@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GAMJA.game;
+﻿using GAMJA.Game;
 namespace GAMJA
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
 
-            ingame.Gameex();
-            
-        }
+      InGame.GameEx();
 
     }
+
+  }
 }
