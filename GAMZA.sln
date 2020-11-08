@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAMZA", "GAMZA.csproj", "{E05FE918-6090-404E-8AA8-26C1388C64BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E05FE918-6090-404E-8AA8-26C1388C64BF}.Debug|x86.ActiveCfg = Debug|x86
+		{E05FE918-6090-404E-8AA8-26C1388C64BF}.Debug|x86.Build.0 = Debug|x86
+		{E05FE918-6090-404E-8AA8-26C1388C64BF}.Release|x86.ActiveCfg = Release|x86
+		{E05FE918-6090-404E-8AA8-26C1388C64BF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B1AEFDE-AECA-479B-A96E-B16AC4958BC6}
+	EndGlobalSection
+EndGlobal

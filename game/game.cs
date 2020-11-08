@@ -47,7 +47,7 @@ namespace GAMJA.Game
     {
       Clear();
       ForegroundColor = ConsoleColor.DarkBlue;
-      WriteLine(ConsoleText.GameTitleText);
+      // WriteLine(ConsoleText.GameTitleText);
       ResetColor();
     }
   }
