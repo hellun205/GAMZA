@@ -6,7 +6,7 @@ namespace GAMJA.Game
 {
   static class ConsoleFunc
   {
-    public static string MainText = /*ConsoleText.GameMainText + */"\n감자 MUD RPG 게임 v.0.01\n";
+    public static string MainText = ConsoleText.GameMainText + "\n감자 MUD RPG 게임 v.0.01\n";
     
     public static int SelectScreen(string question, string[] answers, bool clearOnWrongAnswer = false)
     {
@@ -15,6 +15,8 @@ namespace GAMJA.Game
 
       while (true)
       {
+        if (clearOnWrongAnswer)
+          Clear();
         WriteLine(question);
 
         for (int i = 0; i < answers.Length; i++)

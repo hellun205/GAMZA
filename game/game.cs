@@ -16,7 +16,7 @@ namespace GAMJA.Game
     private static void GameMain()
     {
       while (true)
-      {        
+      {
         switch (SelectScreen(MainText, new string[] { "게임 시작", "게임 종료" }, true))
         {
           case 1:
@@ -47,7 +47,7 @@ namespace GAMJA.Game
     {
       Clear();
       ForegroundColor = ConsoleColor.DarkBlue;
-      // WriteLine(ConsoleText.GameTitleText);
+      WriteLine(ConsoleText.GameTitleText);
       ResetColor();
     }
   }
