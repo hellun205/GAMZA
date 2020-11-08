@@ -1,3 +1,3 @@
-﻿*.csproj
-bin
+﻿bin
 obj
+.vs

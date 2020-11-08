@@ -1,46 +1,34 @@
 ﻿using System;
 using static System.Console;
+using static System.ConsoleKey;
 
 namespace GAMJA.Game
 {
   static class ConsoleFunc
   {
-    public static string MainText = ConsoleText.GameMainText + "\n감자 MUD RPG 게임 v.0.01\n";
-
-
-
-    public static int SelectScreen(string _Question, string[] _Answer, bool _ClearConsole = false)
+    public static string MainText = /*ConsoleText.GameMainText + */"\n감자 MUD RPG 게임 v.0.01\n";
+    
+    public static int SelectScreen(string question, string[] answers, bool clearOnWrongAnswer = false)
     {
-      if (_Answer.Length == 0 || _Answer.Length > 9)
-      {
+      if (answers.Length == 0 || answers.Length > 9)
         return 0;
-      }
-
-      if (_ClearConsole) Clear();
 
       while (true)
       {
-        WriteLine(_Question);
+        WriteLine(question);
 
-        for (int i = 0; i < _Answer.Length; i++)
-        {
-          WriteLine((i + 1) + " . " + _Answer[i]);
-        }
+        for (int i = 0; i < answers.Length; i++)
+          WriteLine($"{i + 1} . {answers[i]}");
 
         ConsoleKey ReadKey = Console.ReadKey().Key;
-        ConsoleKey[] SelectKey = {ConsoleKey.D1 , ConsoleKey.D2, ConsoleKey.D3, ConsoleKey.D4
-            , ConsoleKey.D5, ConsoleKey.D6, ConsoleKey.D7, ConsoleKey.D8, ConsoleKey.D9};
+        ConsoleKey[] SelectKey = { D1 , D2, D3, D4, D5, D6, D7, D8, D9 };
 
-        for (int i = 0; i < _Answer.Length; i++)
+        for (int i = 0; i < SelectKey.Length; i++)
         {
           if (ReadKey == SelectKey[i])
-          {
             return i + 1;
-          }
         }
-
       }
-
     }
 
     public static string ReadTextScreen(string _Question)
@@ -60,6 +48,5 @@ namespace GAMJA.Game
       WriteLine(_Text);
       ResetColor();
     }
-
   }
 }
