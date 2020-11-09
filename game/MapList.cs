@@ -3,7 +3,7 @@
   enum MapList
   {
     None,
-    TownField
+    TownField,
 
   }
 }

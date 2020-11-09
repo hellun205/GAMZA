@@ -6,7 +6,6 @@ namespace GAMJA.Game
 {
   static class ConsoleFunc
   {
-    public static string MainText = ConsoleText.GameMainText + "\n감자 MUD RPG 게임 v.0.01\n";
 
     public static void CWTitle()
     {
@@ -29,7 +28,7 @@ namespace GAMJA.Game
           WriteLine($"{i + 1} . {answers[i]}");
 
         ConsoleKey ReadKey = Console.ReadKey().Key;
-        ConsoleKey[] SelectKey = { D1 , D2, D3, D4, D5, D6, D7, D8, D9 };
+        ConsoleKey[] SelectKey = { D1, D2, D3, D4, D5, D6, D7, D8, D9 };
 
         for (int i = 0; i < SelectKey.Length; i++)
         {
@@ -39,9 +38,9 @@ namespace GAMJA.Game
       }
     }
 
-    public static string ReadTextScreen(string _Question)
+    public static string ReadTextScreen(string question)
     {
-      WriteLine("\n" + _Question + "\n");
+      WriteLine("\n" + question + "\n");
       Write("여기에 입력: ");
       string CRead = ReadLine();
       WriteLine();
@@ -49,11 +48,18 @@ namespace GAMJA.Game
       return CRead;
     }
 
-    public static void WriteLineColor<T>(T text, ConsoleColor foregroundColor, ConsoleColor backgroundColor = ConsoleColor.Black)
+    public static void WriteLineColor<T>(T text, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Black)
     {
       BackgroundColor = backgroundColor;
       ForegroundColor = foregroundColor;
       WriteLine(text);
+      ResetColor();
+    }
+    public static void WriteColor<T>(T text, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Black)
+    {
+      BackgroundColor = backgroundColor;
+      ForegroundColor = foregroundColor;
+      Write(text);
       ResetColor();
     }
   }

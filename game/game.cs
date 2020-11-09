@@ -1,4 +1,6 @@
 ﻿using System;
+using GAMJA.Entity;
+using GAMJA.Inventory;
 using static GAMJA.Game.ConsoleFunc;
 using static System.Console;
 
@@ -17,7 +19,8 @@ namespace GAMJA.Game
     {
       while (true)
       {
-        switch (SelectScreen(MainText, new string[] { "게임 시작", "게임 종료" }, true))
+        CWTitle();
+        switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "게임 시작", "게임 종료" }))
         {
           case 1:
             CharacterSetting();
@@ -27,10 +30,7 @@ namespace GAMJA.Game
             CurrentMap = MapList.TownField;
             return;
           case 2:
-            if (SelectScreen(MainText + "게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }, true) == 1)
-            {
-              Environment.Exit(0);
-            }
+            GameExit();
             break;
         }
       }
@@ -41,7 +41,8 @@ namespace GAMJA.Game
     {
       while (true)
       {
-        switch (SelectScreen(MainText + "게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }, true))
+        CWTitle();
+        switch (SelectScreen("\n게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }))
         {
           case 1:
             Environment.Exit(0);
@@ -53,7 +54,8 @@ namespace GAMJA.Game
     }
 
 
-    static Player MyPlayer;
+    static Player myPlayer;
+    static Inven myInventory;
 
     public static void CharacterSetting()
     {
@@ -66,17 +68,26 @@ namespace GAMJA.Game
         string readName = ReadTextScreen("캐릭터의 이름을 설정하시오.");
         if (readName != "")
         {
-          MyPlayer = new Player(readName, 1, 50, 30, 10);
+          myPlayer = new Player(readName, 1, 50, 30, 10);
+          myInventory = new Inven(24, 24, myPlayer);
           whileA = false;
         }
       }
 
       CWTitle();
       WriteLine("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
-      WriteLineColor(MyPlayer.GetInfo, ConsoleColor.Black, ConsoleColor.White);
+      WriteLineColor(myPlayer.GetInfo, ConsoleColor.Black, ConsoleColor.White);
       ReadKey();
     }
 
+    public static void OpenInventory()
+    {
+      myInventory.Open();
+    }
 
+    public static void OpenPlayerStatus()
+    {
+
+    }
   }
 }

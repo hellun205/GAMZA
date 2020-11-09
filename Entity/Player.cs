@@ -1,4 +1,4 @@
-﻿namespace GAMJA.Game
+﻿namespace GAMJA.Entity
 {
   class Player
   {
