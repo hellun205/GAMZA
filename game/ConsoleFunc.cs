@@ -49,11 +49,11 @@ namespace GAMJA.Game
       return CRead;
     }
 
-    public static void WriteLineColor<T>(T _Text, ConsoleColor _ForegroundColor, ConsoleColor _BackgroundColor = ConsoleColor.Black)
+    public static void WriteLineColor<T>(T text, ConsoleColor foregroundColor, ConsoleColor backgroundColor = ConsoleColor.Black)
     {
-      BackgroundColor = _BackgroundColor;
-      ForegroundColor = _ForegroundColor;
-      WriteLine(_Text);
+      BackgroundColor = backgroundColor;
+      ForegroundColor = foregroundColor;
+      WriteLine(text);
       ResetColor();
     }
   }

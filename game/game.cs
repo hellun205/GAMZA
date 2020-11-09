@@ -20,10 +20,11 @@ namespace GAMJA.Game
         switch (SelectScreen(MainText, new string[] { "게임 시작", "게임 종료" }, true))
         {
           case 1:
-            CharacterSetting(MyPlayer);
+            CharacterSetting();
             CWTitle();
             WriteLineColor(" 마을 필드로 이동합니다.", ConsoleColor.DarkGreen);
             ReadKey();
+            CurrentMap = MapList.TownField;
             return;
           case 2:
             if (SelectScreen(MainText + "게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }, true) == 1)
@@ -36,9 +37,25 @@ namespace GAMJA.Game
 
     }
 
-    static Player MyPlayer = new Player();
+    private static void GameExit()
+    {
+      while (true)
+      {
+        switch (SelectScreen(MainText + "게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }, true))
+        {
+          case 1:
+            Environment.Exit(0);
+            return;
+          case 2:
+            return;
+        }
+      }
+    }
 
-    public static void CharacterSetting(Player player)
+
+    static Player MyPlayer;
+
+    public static void CharacterSetting()
     {
       bool whileA = true;
       while (whileA)
@@ -46,15 +63,13 @@ namespace GAMJA.Game
         CWTitle();
         WriteLine("지금부터 당신의 캐릭터를 생성합니다.");
 
-        string _name = ReadTextScreen("캐릭터의 이름을 설정하시오.");
-        if (_name != "")
+        string readName = ReadTextScreen("캐릭터의 이름을 설정하시오.");
+        if (readName != "")
         {
-          player.Name = _name;
+          MyPlayer = new Player(readName, 1, 50, 30, 10);
           whileA = false;
         }
       }
-
-      player.Level = 1;
 
       CWTitle();
       WriteLine("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
