@@ -3,6 +3,7 @@ using GAMJA.Entity;
 using GAMJA.Inventory;
 using static GAMJA.Game.ConsoleFunc;
 using static System.Console;
+using static System.ConsoleKey;
 
 namespace GAMJA.Game
 {
@@ -22,14 +23,14 @@ namespace GAMJA.Game
         CWTitle();
         switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "게임 시작", "게임 종료" }))
         {
-          case 1:
+          case D1:
             CharacterSetting();
             CWTitle();
             WriteLineColor(" 마을 필드로 이동합니다.", ConsoleColor.DarkGreen);
             ReadKey();
             CurrentMap = MapList.TownField;
             return;
-          case 2:
+          case D2:
             GameExit();
             break;
         }
@@ -44,10 +45,10 @@ namespace GAMJA.Game
         CWTitle();
         switch (SelectScreen("\n게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }))
         {
-          case 1:
+          case D1:
             Environment.Exit(0);
             return;
-          case 2:
+          case D2:
             return;
         }
       }

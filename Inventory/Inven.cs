@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using static GAMJA.Game.ConsoleFunc;
 using static GAMJA.Game.InGame;
+using static System.ConsoleKey;
 
 namespace GAMJA.Inventory
 {
@@ -198,14 +199,14 @@ namespace GAMJA.Inventory
 
         switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 선택", "뒤로 가기" }))
         {
-          case 1:
+          case D1:
             Material selectItem = SelectItem();
             if (selectItem != Item.GetAir())
             {
               ItemInterAct(selectItem, selectedX, selectedY);
             }
             break;
-          case 2:
+          case D2:
             return;
         }
       }
@@ -223,10 +224,10 @@ namespace GAMJA.Inventory
           case ItemType.NONE:
             switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기", "뒤로 가기" }))
             {
-              case 1:
+              case D1:
                 ViewItemInfo(material, selectedX, selectedY);
                 break;
-              case 2:
+              case D2:
                 return;
             }
 
@@ -237,9 +238,9 @@ namespace GAMJA.Inventory
 
     private void ViewItemInfo(Material material, int selectedX, int selectedY)
     {
-      while(true)
+      while (true)
       {
-        Select
+
       }
     }
 

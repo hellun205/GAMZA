@@ -13,30 +13,23 @@ namespace GAMJA.Game
       WriteLineColor(ConsoleText.GameTitleText, ConsoleColor.DarkBlue);
     }
 
-    public static int SelectScreen(string question, string[] answers, bool clearOnWrongAnswer = false)
+    public static ConsoleKey SelectScreen(string question, string[] answers)
+    {
+      return SelectScreen(question, answers, new ConsoleKey[] { D1, D2, D3, D4, D5, D6, D7, D8, D9, D9 });
+    }
+
+    public static ConsoleKey SelectScreen(string question, string[] answers, ConsoleKey[] answerKeys)
     {
       if (answers.Length == 0 || answers.Length > 9)
         return 0;
 
-      while (true)
-      {
-        if (clearOnWrongAnswer)
-          Clear();
-        WriteLineColor(question);
+      WriteLineColor(question);
 
-        for (int i = 0; i < answers.Length; i++)
-          WriteLineColor($"{i + 1} . {answers[i]}");
+      for (int i = 0; i < answers.Length; i++)
+        WriteColor($"{answerKeys[i].ToString()} . {answers[i]}");
 
-        ConsoleKey ReadKey = Console.ReadKey().Key;
-        ConsoleKey[] SelectKey = { D1, D2, D3, D4, D5, D6, D7, D8, D9 };
-
-        for (int i = 0; i < SelectKey.Length; i++)
-        {
-          if (ReadKey == SelectKey[i])
-            return i + 1;
-        }
-        return -1;
-      }
+      ConsoleKey ReadKey = Console.ReadKey().Key;
+      return ReadKey;
     }
 
     public static string ReadTextScreen(string question)

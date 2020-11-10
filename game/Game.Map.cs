@@ -2,6 +2,7 @@
 using System;
 using static GAMJA.Game.ConsoleFunc;
 using static System.Console;
+using static System.ConsoleKey;
 
 namespace GAMJA.Game
 {
@@ -40,19 +41,20 @@ namespace GAMJA.Game
       bool whileA = true;
       while (whileA)
       {
+
         WriteCurrentLocation();
         switch (SelectScreen("이 곳에서 무엇을 하시겠습니까?", new string[] { "이동 한다.", "캐릭터 정보를 확인 한다.",
           "인벤토리를 확인한다.", "게임을 종료한다." }))
         {
-          case 1:
+          case D1:
             break;
-          case 2:
+          case D2:
             OpenPlayerStatus();
             break;
-          case 3:
+          case D3:
             OpenInventory();
             break;
-          case 4:
+          case Escape:
             GameExit();
             break;
         }
