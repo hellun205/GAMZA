@@ -37,7 +37,8 @@ namespace GAMJA.Game
 
     private static void TownField()
     {
-      myInventory.ReplaceItem(5, 5, Material.TESTARMOR);
+      myInventory.ReplaceItem(0, 0, Material.TESTARMOR);
+      myInventory.ReplaceItem(3, 5, Material.TESTARMOR);
       bool whileA = true;
       while (whileA)
       {
@@ -58,11 +59,7 @@ namespace GAMJA.Game
             GameExit();
             break;
           case LeftWindows:
-            Console.Clear();
-            WriteColor("당신은 죽었습니다.", ConsoleColor.DarkRed);
-            Console.Beep(1000, 20000);
-            ReadKey();
-            Environment.Exit(0);
+            KillMe();
             return;
         }
       }

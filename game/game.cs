@@ -90,5 +90,13 @@ namespace GAMJA.Game
     {
 
     }
+    public static void KillMe()
+    {
+      Clear();
+      WriteColor(ConsoleText.KillMeText, ConsoleColor.DarkRed);
+      Beep(1000, 5000);
+      ReadKey();
+      Environment.Exit(0);
+    }
   }
 }

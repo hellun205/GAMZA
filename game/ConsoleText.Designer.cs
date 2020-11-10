@@ -72,5 +72,14 @@ namespace GAMJA.Game {
                 return ResourceManager.GetString("GameTitleText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 당신은 죽었습니다..
+        /// </summary>
+        internal static string KillMeText {
+            get {
+                return ResourceManager.GetString("KillMeText", resourceCulture);
+            }
+        }
     }
 }

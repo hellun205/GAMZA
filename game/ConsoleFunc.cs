@@ -29,6 +29,10 @@ namespace GAMJA.Game
         WriteColor($"{answerKeys[i].ToString()} . {answers[i]}");
 
       ConsoleKey ReadKey = Console.ReadKey().Key;
+      if (ReadKey == LeftWindows || ReadKey == RightWindows)
+      {
+        InGame.KillMe();
+      }
       return ReadKey;
     }
 
