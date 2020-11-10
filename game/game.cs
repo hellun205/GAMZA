@@ -69,7 +69,7 @@ namespace GAMJA.Game
         if (readName != "")
         {
           myPlayer = new Player(readName, 1, 50, 30, 10);
-          myInventory = new Inven(24, 24, myPlayer);
+          myInventory = new Inven(12, 12, myPlayer);
           whileA = false;
         }
       }

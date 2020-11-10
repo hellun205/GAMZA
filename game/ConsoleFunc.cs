@@ -22,10 +22,10 @@ namespace GAMJA.Game
       {
         if (clearOnWrongAnswer)
           Clear();
-        WriteLine(question);
+        WriteLineColor(question);
 
         for (int i = 0; i < answers.Length; i++)
-          WriteLine($"{i + 1} . {answers[i]}");
+          WriteLineColor($"{i + 1} . {answers[i]}");
 
         ConsoleKey ReadKey = Console.ReadKey().Key;
         ConsoleKey[] SelectKey = { D1, D2, D3, D4, D5, D6, D7, D8, D9 };
@@ -35,13 +35,14 @@ namespace GAMJA.Game
           if (ReadKey == SelectKey[i])
             return i + 1;
         }
+        return -1;
       }
     }
 
     public static string ReadTextScreen(string question)
     {
-      WriteLine("\n" + question + "\n");
-      Write("여기에 입력: ");
+      WriteLineColor("\n" + question + "\n");
+      WriteColor("여기에 입력: ");
       string CRead = ReadLine();
       WriteLine();
 

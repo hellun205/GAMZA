@@ -9,7 +9,7 @@ namespace GAMJA.Inventory
 {
   class Inven
   {
-    List<List<Item>> items;
+    List<Item> items;
     private int width;
     private int height;
     private Player player;
@@ -26,7 +26,7 @@ namespace GAMJA.Inventory
 
       width = x;
       height = y;
-      items = new List<List<Item>>();
+      items = new List<Item>();
       ClearInventory();
 
       this.player = player;
@@ -45,22 +45,23 @@ namespace GAMJA.Inventory
     public void ReplaceItem(int x, int y, Item item)
     {
       if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
-      items[x][y] = item;
+      items[x * y] = item;
     }
 
     public Item GetItem(int x, int y)
     {
       if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
-      return items[x][y];
+      return items[x * y];
     }
 
-    public void ClearInventory() 
+    public void ClearInventory()
     {
-      for (int x = 0; x <= width + 1; x++)//Error
+      items = new List<Item>();
+      for (int x = 0; x <= width + 1; x++)
       {
-        for (int y = 0; y <= height + 1; y++)//Error
+        for (int y = 0; y <= height + 1; y++)
         {
-          items[x][y] = Item.GetAir();
+          items.Add(Item.GetAir());
         }
       }
     }
@@ -71,11 +72,11 @@ namespace GAMJA.Inventory
       ConsoleColor bgColor = ConsoleColor.Black;
 
       WriteLineColor($"「{player.name}」의 인벤토리\n");
-      for (int y = 0; y < height; y++)//Error
+      for (int y = 0; y < height; y++)
       {
-        for (int x = 0; x < width; x++)//Error
+        for (int x = 0; x < width; x++)
         {
-          if (items[x][y] == Item.GetAir())
+          if (items[x * y] == Item.GetAir())
           {
             WriteColor("□", fgColor, bgColor);
           }
@@ -94,11 +95,11 @@ namespace GAMJA.Inventory
       ConsoleColor bgColor = ConsoleColor.Black;
 
       WriteLineColor($"「{player.name}」의 인벤토리\n");
-      for (int y = 0; y < height; y++)//Error
+      for (int y = 0; y < height; y++)
       {
-        for (int x = 0; x < width; x++)//Error
+        for (int x = 0; x < width; x++)
         {
-          if (items[x][y] == Item.GetAir())
+          if (items[x * y] == Item.GetAir())
           {
             if (x == selectedX && y == selectedY)
               WriteColor("□", fgColor, bgColor);
