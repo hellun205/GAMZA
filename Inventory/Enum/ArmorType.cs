@@ -2,7 +2,6 @@
 {
   enum ArmorType
   {
-    NONE,
     HEAD,
     UPPERBODY,
     LOWERBODY,

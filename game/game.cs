@@ -4,6 +4,7 @@ using GAMJA.Inventory;
 using static GAMJA.Game.ConsoleFunc;
 using static System.Console;
 using static System.ConsoleKey;
+using static System.ConsoleColor;
 
 namespace GAMJA.Game
 {
@@ -43,12 +44,12 @@ namespace GAMJA.Game
       while (true)
       {
         CWTitle();
-        switch (SelectScreen("\n게임을 종료하시겠습니까?\n", new string[] { "게임 종료\n", "뒤로 가기\n" }, new ConsoleKey[] {Enter, Backspace }))
+        switch (SelectScreen("\n게임을 종료하시겠습니까?\n", new string[] { "게임 종료\n", "뒤로 가기\n" }))
         {
-          case Enter:
+          case D1:
             Environment.Exit(0);
             return;
-          case Backspace:
+          case D2:
             return;
         }
       }
@@ -64,7 +65,7 @@ namespace GAMJA.Game
       while (whileA)
       {
         CWTitle();
-        WriteLine("지금부터 당신의 캐릭터를 생성합니다.");
+        WriteLineColor("지금부터 당신의 캐릭터를 생성합니다.");
 
         string readName = ReadTextScreen("캐릭터의 이름을 설정하시오.");
         if (readName != "")
@@ -76,8 +77,8 @@ namespace GAMJA.Game
       }
 
       CWTitle();
-      WriteLine("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
-      WriteLineColor(myPlayer.GetInfo, ConsoleColor.Black, ConsoleColor.White);
+      WriteLineColor("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
+      WriteLineColor(myPlayer.GetInfo, Black, White);
       ReadKey();
     }
 
@@ -88,12 +89,14 @@ namespace GAMJA.Game
 
     public static void OpenPlayerStatus()
     {
-
+      WriteCurrentLocation();
+      WriteColor(myPlayer.GetInfo, Black, White);
+      ReadKey();
     }
     public static void KillMe()
     {
       Clear();
-      WriteColor(ConsoleText.KillMeText, ConsoleColor.DarkRed);
+      WriteColor(ConsoleText.KillMeText, DarkRed);
       Beep(1000, 5000);
       ReadKey();
       Environment.Exit(0);

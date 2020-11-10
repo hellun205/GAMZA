@@ -55,9 +55,11 @@
     <Compile Include="Entity\Player.cs" />
     <Compile Include="Inventory\Enum\ArmorType.cs" />
     <Compile Include="Inventory\Enum\ItemType.cs" />
+    <Compile Include="Inventory\Enum\WeaponType.cs" />
     <Compile Include="Inventory\Exceptions\InvalidInventoryCellException.cs" />
     <Compile Include="Inventory\Exceptions\InvalidInventorySizeException.cs" />
     <Compile Include="Inventory\Inven.cs" />
+    <Compile Include="Inventory\Inven.Interact.cs" />
     <Compile Include="Inventory\Item.cs" />
     <Compile Include="Inventory\Enum\Material.cs" />
     <Compile Include="Program.cs" />

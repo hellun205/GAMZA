@@ -1,4 +1,7 @@
-﻿namespace GAMJA.Entity
+﻿using GAMJA.Inventory;
+
+
+namespace GAMJA.Entity
 {
   class Player
   {
@@ -12,20 +15,17 @@
     private int plevel;
     private int atPerLevel;
     private int itemAT;
-    private int at { get => itemAT + atPerLevel; }
 
+    private Material[] wearedArmors = new Material[] { Material.AIR, Material.AIR, Material.AIR, Material.AIR };
+    private Material[] wearedWeapons = new Material[] { Material.AIR };
+
+    public int at { get => itemAT + atPerLevel; }
     private int ATPerLevel { get => atPerLevel; set => atPerLevel = value; }
-
     public int ItemAt { get => itemAT; set => itemAT = value; }
+    public Material[] WearedArmors { get => wearedArmors; set => wearedArmors = value; }
+    public Material[] WearedWeapons { get => wearedWeapons; set => wearedWeapons = value; }
 
-    public Player(string name, int level, int hp, int mp, int at)
-    {
-      this.name = name;
-      InitialMaxHp = hp;
-      InitialMaxMp = mp;
-      InitialAt = at;
-      Level = level;
-    }
+
 
     public int MaxHP
     {
@@ -66,6 +66,15 @@
 
     public string name { get; set; }
 
+    public Player(string name, int level, int hp, int mp, int at)
+    {
+      this.name = name;
+      InitialMaxHp = hp;
+      InitialMaxMp = mp;
+      InitialAt = at;
+      Level = level;
+    }
+
     public string GetInfo
     {
       get
@@ -74,5 +83,6 @@
       }
     }
 
+    
   }
 }

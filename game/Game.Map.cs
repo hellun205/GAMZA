@@ -37,8 +37,11 @@ namespace GAMJA.Game
 
     private static void TownField()
     {
-      myInventory.ReplaceItem(0, 0, Material.TESTARMOR);
-      myInventory.ReplaceItem(3, 5, Material.TESTARMOR);
+      myInventory.ReplaceItem(0, 0, Material.TESTARMOR1);
+      myInventory.ReplaceItem(1, 0, Material.TESTWEAPON1);
+
+      myPlayer.WearedArmors[(int)ArmorType.UPPERBODY] = Material.TESTARMOR2;
+      myPlayer.WearedWeapons[(int)WeaponType.GENERAL] = Material.TESTWEAPON2;
       bool whileA = true;
       while (whileA)
       {
@@ -55,7 +58,7 @@ namespace GAMJA.Game
           case D3:
             OpenInventory();
             break;
-          case Escape:
+          case D4:
             GameExit();
             break;
           case LeftWindows:

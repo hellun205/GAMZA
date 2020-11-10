@@ -3,6 +3,9 @@
   enum Material
   {
     AIR,
-    TESTARMOR
+    TESTARMOR1,
+    TESTARMOR2,
+    TESTWEAPON1,
+    TESTWEAPON2
   }
 }
