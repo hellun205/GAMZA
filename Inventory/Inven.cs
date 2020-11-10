@@ -9,7 +9,7 @@ namespace GAMJA.Inventory
 {
   class Inven
   {
-    List<Item> items;
+    List<Material> items;
     private int width;
     private int height;
     private Player player;
@@ -26,7 +26,7 @@ namespace GAMJA.Inventory
 
       width = x;
       height = y;
-      items = new List<Item>();
+      items = new List<Material>();
       ClearInventory();
 
       this.player = player;
@@ -42,13 +42,13 @@ namespace GAMJA.Inventory
       return (x > 0 && x <= width) && (y > 0 && y <= height);
     }
 
-    public void ReplaceItem(int x, int y, Item item)
+    public void ReplaceItem(int x, int y, Material item)
     {
       if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
       items[x * y] = item;
     }
 
-    public Item GetItem(int x, int y)
+    public Material GetItem(int x, int y)
     {
       if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
       return items[x * y];
@@ -56,12 +56,12 @@ namespace GAMJA.Inventory
 
     public void ClearInventory()
     {
-      items = new List<Item>();
+      items = new List<Material>();
       for (int x = 0; x <= width + 1; x++)
       {
         for (int y = 0; y <= height + 1; y++)
         {
-          items.Add(Item.GetAir());
+          items.Add(Material.AIR);
         }
       }
     }
@@ -76,13 +76,13 @@ namespace GAMJA.Inventory
       {
         for (int x = 0; x < width; x++)
         {
-          if (items[x * y] == Item.GetAir())
+          if (items[x * y] == new Material())
           {
             WriteColor("□", fgColor, bgColor);
           }
           else
           {
-            WriteColor("■", fgColor, bgColor);
+            WriteColor("■", bgColor, fgColor);
           }
         }
         WriteLineColor("", fgColor, bgColor);
@@ -116,32 +116,46 @@ namespace GAMJA.Inventory
         }
         WriteLineColor("", fgColor, bgColor);
       }
+
+      this.selectedX = selectedX;
+      this.selectedY = selectedY;
+      if (items[selectedX * selectedY] == Item.GetAir())
+      {
+        WriteColor($"비어 있음\n");
+        WriteColor($"  아이템이 없습니다.\n", ConsoleColor.DarkGray);
+      }
+      else
+      {
+        Item sItem = new Item(items[selectedX * selectedY]);
+        WriteColor($"{sItem.Name}\n");
+        WriteColor($"  {sItem.Lore}\n", ConsoleColor.DarkGray);
+      }
+
     }
 
-    private Item SelectItem()
+    private Material SelectItem()
     {
       int sX = 0;
       int sY = 0;
 
       while (true)
       {
-        CWTitle();
         WriteCurrentLocation();
         RenderInventory(sX, sY);
-        WriteLineColor("\n아이템을 선택 하시오.\n", ConsoleColor.Black, ConsoleColor.White);
-        WriteLineColor("↑  ↓  ↑  ↓ . 이동\n1 . 선택\n2 . 취소");
+        //WriteLineColor("\n아이템을 선택 하시오.\n", ConsoleColor.Black, ConsoleColor.White);
+        WriteLineColor("↑  ↓  ↑  ↓ . 이동 / 1 . 선택 / 2 . 취소");
 
         switch (Console.ReadKey().Key)
         {
           case ConsoleKey.UpArrow:
             if (sY == 0)
-              sY = height;
+              sY = height - 1;
             else
               sY--;
             break;
 
           case ConsoleKey.DownArrow:
-            if (sY == height)
+            if (sY == height - 1)
               sY = 0;
             else
               sY++;
@@ -149,13 +163,13 @@ namespace GAMJA.Inventory
 
           case ConsoleKey.LeftArrow:
             if (sX == 0)
-              sX = width;
+              sX = width - 1;
             else
               sX--;
             break;
 
           case ConsoleKey.RightArrow:
-            if (sX == width)
+            if (sX == width - 1)
               sX = 0;
             else
               sX++;
@@ -167,7 +181,7 @@ namespace GAMJA.Inventory
             return GetItem(sX, sY);
 
           case ConsoleKey.D2:
-            return null;
+            return Item.GetAir();
 
           default:
             break;
@@ -175,28 +189,57 @@ namespace GAMJA.Inventory
       }
     }
 
-    public Item Open()
+    public void Open()
     {
       while (true)
       {
-        CWTitle();
         WriteCurrentLocation();
         RenderInventory();
 
         switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 선택", "뒤로 가기" }))
         {
           case 1:
-            Item selectItem = SelectItem();
-
-            if (selectItem != null)
+            Material selectItem = SelectItem();
+            if (selectItem != Item.GetAir())
             {
-              return selectItem;
+              ItemInterAct(selectItem, selectedX, selectedY);
             }
             break;
-
           case 2:
-            return null;
+            return;
         }
+      }
+    }
+
+    private void ItemInterAct(Material material, int selectedX, int selectedY)
+    {
+      Item item = new Item(material);
+      while (true)
+      {
+        WriteCurrentLocation();
+        RenderInventory(selectedX, selectedY);
+        switch (item.Type)
+        {
+          case ItemType.NONE:
+            switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기", "뒤로 가기" }))
+            {
+              case 1:
+                ViewItemInfo(material, selectedX, selectedY);
+                break;
+              case 2:
+                return;
+            }
+
+            break;
+        }
+      }
+    }
+
+    private void ViewItemInfo(Material material, int selectedX, int selectedY)
+    {
+      while(true)
+      {
+        Select
       }
     }
 

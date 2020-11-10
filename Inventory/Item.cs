@@ -4,34 +4,34 @@
   {
     private string pName;
     private string pLore;
+    private ItemType type = ItemType.NONE;
+    private ArmorType armorType = ArmorType.NONE;
 
     public string Name { get => pName; set => pName = value; }
     public string Lore { get => pLore; set => pLore = value; }
+    public ItemType Type { get => type; set => type = value; }
+    public ArmorType ArmorType { get => armorType; set => armorType = value; }
 
-    //public Item() { }
-
-    public static Item GetAir()
+    public Item(Material material)
     {
-      return GetItem(Material.AIR);
-    }
-
-    public static Item GetItem(Material material)
-    {
-      Item item = new Item();
       switch (material)
       {
         case Material.AIR:
-          item.Name = "";
-          item.Lore = "";
           break;
-
-        case Material.TEST:
+        case Material.TESTARMOR:
+          Name = "Test Armor 1";
+          Lore = "Test Armor";
+          Type = ItemType.ARMOR;
+          ArmorType = ArmorType.UPPERBODY;
           break;
-
         default:
-          return new Item();
+          break;
       }
-      return item;
+    }
+
+    public static Material GetAir()
+    {
+      return Material.AIR;
     }
 
   }

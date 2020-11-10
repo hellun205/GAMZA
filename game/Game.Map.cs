@@ -1,6 +1,7 @@
-﻿using System;
-using static System.Console;
+﻿using GAMJA.Inventory;
+using System;
 using static GAMJA.Game.ConsoleFunc;
+using static System.Console;
 
 namespace GAMJA.Game
 {
@@ -28,17 +29,17 @@ namespace GAMJA.Game
 
     public static void WriteCurrentLocation()
     {
+      CWTitle();
       WriteLineColor($"\t 현재 위치 : {CurrentMap}\n=================================\n", ConsoleColor.White);
     }
 
 
     private static void TownField()
-    {     
+    {
+      myInventory.ReplaceItem(5, 5, Material.TESTARMOR);
       bool whileA = true;
       while (whileA)
       {
-        Clear();
-        CWTitle();
         WriteCurrentLocation();
         switch (SelectScreen("이 곳에서 무엇을 하시겠습니까?", new string[] { "이동 한다.", "캐릭터 정보를 확인 한다.",
           "인벤토리를 확인한다.", "게임을 종료한다." }))

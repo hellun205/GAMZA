@@ -3,6 +3,6 @@
   enum Material
   {
     AIR,
-    TEST = 9999
+    TESTARMOR
   }
 }

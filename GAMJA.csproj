@@ -53,11 +53,13 @@
     <Compile Include="Game\Game.Map.cs" />
     <Compile Include="Game\MapList.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="Inventory\Enum\ArmorType.cs" />
+    <Compile Include="Inventory\Enum\ItemType.cs" />
     <Compile Include="Inventory\Exceptions\InvalidInventoryCellException.cs" />
     <Compile Include="Inventory\Exceptions\InvalidInventorySizeException.cs" />
     <Compile Include="Inventory\Inven.cs" />
     <Compile Include="Inventory\Item.cs" />
-    <Compile Include="Inventory\Material.cs" />
+    <Compile Include="Inventory\Enum\Material.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
