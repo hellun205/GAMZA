@@ -43,8 +43,8 @@ namespace GAMJA.Game
       {
 
         WriteCurrentLocation();
-        switch (SelectScreen("이 곳에서 무엇을 하시겠습니까?", new string[] { "이동 한다.", "캐릭터 정보를 확인 한다.",
-          "인벤토리를 확인한다.", "게임을 종료한다." }))
+        switch (SelectScreen("이 곳에서 무엇을 하시겠습니까?", new string[] { "이동 한다.\n", "캐릭터 정보를 확인 한다.\n",
+          "인벤토리를 확인한다.\n", "게임을 종료한다.\n" }))
         {
           case D1:
             break;
@@ -57,6 +57,13 @@ namespace GAMJA.Game
           case Escape:
             GameExit();
             break;
+          case LeftWindows:
+            Console.Clear();
+            WriteColor("당신은 죽었습니다.", ConsoleColor.DarkRed);
+            Console.Beep(1000, 20000);
+            ReadKey();
+            Environment.Exit(0);
+            return;
         }
       }
     }

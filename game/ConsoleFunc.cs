@@ -20,7 +20,7 @@ namespace GAMJA.Game
 
     public static ConsoleKey SelectScreen(string question, string[] answers, ConsoleKey[] answerKeys)
     {
-      if (answers.Length == 0 || answers.Length > 9)
+      if (answers.Length == 0 || answers.Length > answerKeys.Length)
         return 0;
 
       WriteLineColor(question);

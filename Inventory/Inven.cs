@@ -197,7 +197,7 @@ namespace GAMJA.Inventory
         WriteCurrentLocation();
         RenderInventory();
 
-        switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 선택", "뒤로 가기" }))
+        switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 선택\n", "뒤로 가기\n" }))
         {
           case D1:
             Material selectItem = SelectItem();
@@ -222,13 +222,14 @@ namespace GAMJA.Inventory
         switch (item.Type)
         {
           case ItemType.NONE:
-            switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기", "뒤로 가기" }))
+            switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기\n", "뒤로 가기\n" }))
             {
               case D1:
                 ViewItemInfo(material, selectedX, selectedY);
                 break;
               case D2:
                 return;
+
             }
 
             break;

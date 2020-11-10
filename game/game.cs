@@ -21,7 +21,7 @@ namespace GAMJA.Game
       while (true)
       {
         CWTitle();
-        switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "게임 시작", "게임 종료" }))
+        switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "게임 시작\n", "게임 종료\n" }))
         {
           case D1:
             CharacterSetting();
@@ -43,12 +43,12 @@ namespace GAMJA.Game
       while (true)
       {
         CWTitle();
-        switch (SelectScreen("\n게임을 종료하시겠습니까?", new string[] { "게임 종료", "뒤로 가기" }))
+        switch (SelectScreen("\n게임을 종료하시겠습니까?\n", new string[] { "게임 종료\n", "뒤로 가기\n" }, new ConsoleKey[] {Enter, Backspace }))
         {
-          case D1:
+          case Enter:
             Environment.Exit(0);
             return;
-          case D2:
+          case Backspace:
             return;
         }
       }
