@@ -10,7 +10,7 @@ namespace GAMJA.Game
     public static void CWTitle()
     {
       Clear();
-      WriteLineColor(ConsoleText.GameTitleText, ConsoleColor.DarkBlue);
+      WriteLineColor(ConsoleText.GameTitleText, ConsoleColor.DarkGreen);
     }
 
     public static ConsoleKey SelectScreen(string question, string[] answers)

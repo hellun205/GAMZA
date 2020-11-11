@@ -17,8 +17,8 @@ namespace GAMJA.Inventory
     public int itemSX = 0;
     public int itemSY = 0;
 
-    public int equipmentSY = 0;
-
+    public int armorSY = 0;
+    public int weaponSY = 0;
 
 
     public Inven(int x, int y, Player player)
@@ -26,8 +26,8 @@ namespace GAMJA.Inventory
       if (x <= 0 || y <= 0)
         throw new InvalidInventorySizeException();
 
-      width = x;
-      height = y;
+      width = x - 1;
+      height = y - 1;
       items = new List<Material>();
       ClearInventory();
 
@@ -36,31 +36,57 @@ namespace GAMJA.Inventory
       this.player = player;
     }
 
-    private bool IsValidCell(int x, int y) => (x > 0 && x <= width) && (y > 0 && y <= height);
-    private int GetCellId(int x, int y) => width * y + x;
+    private bool IsValidCell(int x, int y) => (x >= 0 && x < width) && (y >= 0 && y < height);
+    private bool IsValidCell(int cell) => (cell >= 0 && cell < (width * height));
+
+    public int GetCellId(int x, int y) => width * y + x;
 
     public void ReplaceItem(int x, int y, Material item)
     {
-      if (!IsValidCell(x + 1, y + 1)) throw new InvalidInventoryCellException();
+      if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
       items[GetCellId(x, y)] = item;
+    }
+
+    public void ReplaceItem(int cell, Material item)
+    {
+      if (!IsValidCell(cell)) throw new InvalidInventoryCellException();
+      items[cell] = item;
     }
 
     public Material GetItem(int x, int y)
     {
-      if (!IsValidCell(x + 1, y + 1)) throw new InvalidInventoryCellException();
+      if (!IsValidCell(x, y)) throw new InvalidInventoryCellException();
       return items[GetCellId(x, y)];
+    }
+
+    public Material GetItem(int cell)
+    {
+      if (!IsValidCell(cell)) throw new InvalidInventoryCellException();
+      return items[cell];
     }
 
     public void ClearInventory()
     {
       items = new List<Material>();
-      for (int x = 0; x <= width + 1; x++)
+      for (int x = 0; x < width + 1; x++)
       {
-        for (int y = 0; y <= height + 1; y++)
+        for (int y = 0; y < height + 1; y++)
         {
           items.Add(Item.GetAir());
         }
       }
+    }
+
+    public int GetAirCell()
+    {
+      for (int i = 0; i < (width * height); i++)
+      {
+        if (GetItem(i) == Item.GetAir())
+        {
+          return i;
+        }
+      }
+      return -1;
     }
 
     private void RenderInventory()
@@ -203,7 +229,7 @@ namespace GAMJA.Inventory
             WriteColor("■\n", fgColor, bgColor);
         }
       }
-      equipmentSY = selectedY;
+      armorSY = selectedY;
 
       if (selectedY < player.WearedArmors.Length)
       {
@@ -219,7 +245,8 @@ namespace GAMJA.Inventory
           WriteColor($"  {sItem.Type.ToString() }", Yellow);
           WriteColor($" {sItem.Lore}\n", DarkGray);
         }
-      }else if (selectedY >= player.WearedArmors.Length)
+      }
+      else if (selectedY >= player.WearedArmors.Length)
       {
         if (player.WearedWeapons[selectedY - player.WearedArmors.Length] == Item.GetAir())
         {
@@ -235,7 +262,7 @@ namespace GAMJA.Inventory
         }
       }
 
-      
+
     }
 
   }

@@ -9,6 +9,26 @@ namespace GAMJA.Inventory
 {
   partial class Inven
   {
+    public void Open()
+    {
+      while (true)
+      {
+        WriteCurrentLocation();
+
+        switch (SelectScreen("무엇을 보시겠습니까?", new string[] { "인벤토리\n", "장비\n", "뒤로 가기\n" }))
+        {
+          case D1:
+            OpenInventory();
+            break;
+          case D2:
+            OpenEquipment();
+            break;
+          case D3:
+            return;
+        }
+      }
+    }
+
     private void SelectItem()
     {
       int sX = 0;
@@ -93,39 +113,24 @@ namespace GAMJA.Inventory
             break;
 
           case Enter:
-            equipmentSY = sY;
 
             Material material = Item.GetAir();
             if (sY < player.WearedArmors.Length)
-              material = player.WearedArmors[sY];
-            else if (sY >= player.WearedArmors.Length)
-              material = player.WearedWeapons[sY - player.WearedArmors.Length];
-            if (player.WearedArmors[sY - player.WearedArmors.Length] != Item.GetAir())
             {
-              EquipmentInteract(equipmentSY);
+              material = player.WearedArmors[sY];
+              armorSY = sY;
+              EquipmentInteract(ItemType.ARMOR, sY);
             }
-            break;
-          case D2:
-            return;
-        }
-      }
-    }
+            else if (sY >= player.WearedArmors.Length)
+            {
+              material = player.WearedWeapons[sY - player.WearedArmors.Length];
+              weaponSY = sY - player.WearedArmors.Length;
+              EquipmentInteract(ItemType.WEAPON, sY - player.WearedArmors.Length);
+            }
 
-    public void Open()
-    {
-      while (true)
-      {
-        WriteCurrentLocation();
+            break;
 
-        switch (SelectScreen("무엇을 보시겠습니까?", new string[] { "인벤토리\n", "장비\n", "뒤로 가기\n" }))
-        {
-          case D1:
-            OpenInventory();
-            break;
           case D2:
-            OpenEquipment();
-            break;
-          case D3:
             return;
         }
       }
@@ -217,46 +222,51 @@ namespace GAMJA.Inventory
       }
     }
 
-    private void EquipmentInteract(int selectedY)
+    private void EquipmentInteract(ItemType itemType, int selectedY)
     {
       Item item = new Item();
-      if (selectedY < player.WearedArmors.Length)
-        item = new Item(player.WearedArmors[selectedY]);
-      else if (selectedY >= player.WearedArmors.Length)
-        item = new Item(player.WearedWeapons[selectedY - player.WearedArmors.Length]);
 
       while (true)
       {
         WriteCurrentLocation();
-        RenderEquipment(selectedY);
-        switch (item.Type)
+
+        switch (itemType)
         {
           case ItemType.ARMOR:
+            item = new Item(player.WearedArmors[selectedY]);
+            RenderEquipment(selectedY);
+
             switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기\n", "장비 벗기\n", "뒤로 가기\n" }))
             {
               case D1:
-                ViewEquipmentInfo(selectedY);
+                ViewEquipmentInfo(itemType, selectedY);
                 break;
               case D2:
-                //UndressItem(selectedY);
+                UndressItem(itemType, selectedY);
                 break;
               case D3:
                 return;
             }
             break;
           case ItemType.WEAPON:
+            item = new Item(player.WearedWeapons[selectedY]);
+            RenderEquipment(selectedY + player.WearedArmors.Length);
             switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기\n", "무기 벗기\n", "뒤로 가기\n" }))
             {
               case D1:
-                ViewEquipmentInfo(selectedY);
+                ViewEquipmentInfo(itemType, selectedY);
                 break;
               case D2:
-                //UndressItem(selectedY);
+                UndressItem(itemType, selectedY);
                 break;
               case D3:
                 return;
             }
             break;
+          default:
+            Write("default");
+            ReadKey();
+            return;
         }
       }
     }
@@ -269,24 +279,23 @@ namespace GAMJA.Inventory
       ShowItemInfo(GetItem(selectedX, selectedY));
     }
 
-    private void ViewEquipmentInfo(int selectedY)
+    private void ViewEquipmentInfo(ItemType itemType, int selectedY)
     {
       Material material = Item.GetAir();
-      if (selectedY < player.WearedArmors.Length)
+
+      if (itemType == ItemType.ARMOR)
       {
         material = player.WearedArmors[selectedY];
         WriteCurrentLocation();
         WriteColor($"위치: 장비(갑옷, {selectedY})\n\n", Gray);
       }
-      else if (selectedY >= player.WearedArmors.Length)
+      else if (itemType == ItemType.WEAPON)
       {
-        material = player.WearedWeapons[selectedY - player.WearedArmors.Length];
+        material = player.WearedWeapons[selectedY];
         WriteCurrentLocation();
-        WriteColor($"위치: 장비(무기, {selectedY - player.WearedArmors.Length})\n\n", Gray);
+        WriteColor($"위치: 장비(무기, {selectedY})\n\n", Gray);
       }
-
       ShowItemInfo(material);
-
     }
 
     private void ShowItemInfo(Material material)
@@ -308,7 +317,6 @@ namespace GAMJA.Inventory
       Console.ReadKey();
     }
 
-
     private void WearItem(int x, int y)
     {
       Material material = GetItem(x, y);
@@ -323,163 +331,156 @@ namespace GAMJA.Inventory
 
           if (wearedArmor != Item.GetAir())
           {
-            while (true)
+            if (WearItem(material, player.WearedArmors[itemArmorType]))
             {
-              WriteCurrentLocation();
-              WriteColor("현재 착용 하고 있는 ");
-              WriteColor(wearedArmorItem.Name, Cyan);
-              WriteColor("(이)랑 변경하시겠습니까?");
-              switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
-              {
-                case Enter:
-                  player.WearedArmors[itemArmorType] = material;
-                  ReplaceItem(x, y, wearedArmor);
-
-                  WriteCurrentLocation();
-                  WriteColor("현재 착용 중이던 ");
-                  WriteColor(wearedArmorItem.Name, Cyan);
-                  WriteColor("에서 ");
-                  WriteColor(new Item(player.WearedArmors[itemArmorType]).Name, Cyan);
-                  WriteColor("(으)로 변경했습니다.");
-
-                  ReadKey();
-                  return;
-                case D2:
-                  return;
-              }
+              player.WearedArmors[itemArmorType] = material;
+              ReplaceItem(x, y, wearedArmor);
             }
           }
           else
           {
-            while (true)
+            if (WearItem(material))
             {
-              WriteCurrentLocation();
-              WriteColor(item.Name, Cyan);
-              WriteColor("을(를) 착용하시겠습니까?");
-              switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
-              {
-                case Enter:
-                  player.WearedArmors[itemArmorType] = material;
-                  ReplaceItem(x, y, wearedArmor);
-
-                  WriteCurrentLocation();
-                  WriteColor(new Item(player.WearedArmors[itemArmorType]).Name, Cyan);
-                  WriteColor("(을)를 착용했습니다.");
-
-                  ReadKey();
-                  return;
-                case D2:
-                  return;
-              }
+              player.WearedArmors[itemArmorType] = material;
+              ReplaceItem(x, y, wearedArmor);
             }
           }
-
+          break;
 
         case ItemType.WEAPON:
           int itemWeaponType = (int)item.WeaponType;
-          Material wearedWeapon = player.WearedArmors[itemWeaponType];
+          Material wearedWeapon = player.WearedWeapons[itemWeaponType];
           Item wearedWeaponItem = new Item(wearedWeapon);
 
           if (wearedWeapon != Item.GetAir())
           {
-            while (true)
+            if (WearItem(material, player.WearedWeapons[itemWeaponType]))
             {
-              WriteCurrentLocation();
-              WriteColor("현재 착용 하고 있는 ");
-              WriteColor(wearedWeaponItem.Name, Cyan);
-              WriteColor("(이)랑 변경하시겠습니까?");
-              switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
-              {
-                case Enter:
-                  player.WearedArmors[itemWeaponType] = material;
-                  ReplaceItem(x, y, wearedWeapon);
-
-                  WriteCurrentLocation();
-                  WriteColor("현재 착용 중이던 ");
-                  WriteColor(wearedWeaponItem.Name, Cyan);
-                  WriteColor("에서 ");
-                  WriteColor(new Item(player.WearedArmors[itemWeaponType]).Name, Cyan);
-                  WriteColor("(으)로 변경했습니다.");
-
-                  ReadKey();
-                  return;
-                case D2:
-                  return;
-              }
+              player.WearedWeapons[itemWeaponType] = material;
+              ReplaceItem(x, y, wearedWeapon);
             }
           }
           else
           {
-            while (true)
+            if (WearItem(material))
             {
-              WriteCurrentLocation();
-              WriteColor(item.Name, Cyan);
-              WriteColor("을(를) 착용하시겠습니까?");
-              switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
-              {
-                case Enter:
-                  player.WearedArmors[itemWeaponType] = material;
-                  ReplaceItem(x, y, wearedWeapon);
-
-                  WriteCurrentLocation();
-                  WriteColor(new Item(player.WearedArmors[itemWeaponType]).Name, Cyan);
-                  WriteColor("(을)를 착용했습니다.");
-
-                  ReadKey();
-                  return;
-                case D2:
-                  return;
-              }
+              player.WearedWeapons[itemWeaponType] = material;
+              ReplaceItem(x, y, wearedWeapon);
             }
           }
+          break;
       }
     }
 
-    //private void UndressItem(int y)
-    //{
-    //  Material material = GetItem(x, y);
-    //  Item item = new Item(material);
+    private bool WearItem(Material itemToWearMaterial, Material wearedItemMaterial)
+    {
+      Item wearedItem = new Item(wearedItemMaterial);
+      Item itemToWear = new Item(itemToWearMaterial);
+      while (true)
+      {
+        WriteCurrentLocation();
+        WriteColor("현재 착용 하고 있는 ");
+        WriteColor(wearedItem.Name, Cyan);
+        WriteColor("(이)랑 변경하시겠습니까?");
+        switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
+        {
+          case Enter:
+            WriteCurrentLocation();
+            WriteColor("현재 착용 중이던 ");
+            WriteColor(wearedItem.Name, Cyan);
+            WriteColor("에서 ");
+            WriteColor(itemToWear.Name, Cyan);
+            WriteColor("(으)로 변경했습니다.");
+            ReadKey();
+            return true;
+          case D2:
+            return false;
+        }
+      }
+    }
 
-    //  switch (item.Type)
-    //  {
-    //    case ItemType.ARMOR:
-    //      int itemArmorType = (int)item.ArmorType;
-    //      Material wearedArmor = player.WearedArmors[itemArmorType];
-    //      Item wearedArmorItem = new Item(wearedArmor);
+    private bool WearItem(Material itemToWearMaterial)
+    {
+      Item itemToWear = new Item(itemToWearMaterial);
+      while (true)
+      {
+        WriteCurrentLocation();
+        WriteColor(itemToWear.Name, Cyan);
+        WriteColor("을(를) 착용하시겠습니까?");
+        switch (SelectScreen("", new string[] { "착용\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
+        {
+          case Enter:
+            WriteCurrentLocation();
+            WriteColor(itemToWear.Name, Cyan);
+            WriteColor("(을)를 착용했습니다.");
+            ReadKey();
+            return true;
+          case D2:
+            return false;
+        }
+      }
+    }
 
-    //      if (wearedArmor != Item.GetAir())
-    //      {
-    //        while (true)
-    //        {
-    //          WriteCurrentLocation();
-    //          WriteColor("현재 착용 하고 있는 ");
-    //          WriteColor(wearedArmorItem.Name, Cyan);
-    //          WriteColor("(이)랑 변경하시겠습니까?");
-    //          switch (SelectScreen("", new string[] { "변경\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
-    //          {
-    //            case Enter:
-    //              player.WearedArmors[itemArmorType] = material;
-    //              ReplaceItem(x, y, wearedArmor);
+    private void UndressItem(ItemType itemType, int selectedY)
+    {
+      int itemAirCell = GetAirCell();
+      if (itemAirCell == -1)
+      {
+        WriteColor("인벤토리가 부족하여 아이템을 벗을 수 없습니다.");
+        ReadKey();
+      }
 
-    //              WriteCurrentLocation();
-    //              WriteColor("현재 착용 중이던 ");
-    //              WriteColor(wearedArmorItem.Name, Cyan);
-    //              WriteColor("에서 ");
-    //              WriteColor(new Item(player.WearedArmors[itemArmorType]).Name, Cyan);
-    //              WriteColor("(으)로 변경했습니다.");
+      switch (itemType)
+      {
+        case ItemType.ARMOR:
+          Material wearedArmor = player.WearedArmors[selectedY];
 
-    //              ReadKey();
-    //              return;
-    //            case D2:
-    //              return;
-    //          }
-    //        }
-    //      }
-    //      player.WearedArmors[itemArmorType] = material;
-    //      break;
-    //    case ItemType.WEAPON:
-    //      break;
-    //  }
-    //}
+          if (wearedArmor != Item.GetAir())
+          {
+            if (UndressItem(itemType, selectedY, wearedArmor))
+            {
+              player.WearedArmors[selectedY] = Item.GetAir();
+              ReplaceItem(itemAirCell, wearedArmor);
+            }
+          }
+          break;
+
+        case ItemType.WEAPON:
+          Material wearedWeapon = player.WearedWeapons[selectedY];
+
+          if (wearedWeapon != Item.GetAir())
+          {
+            if (UndressItem(itemType, selectedY, wearedWeapon))
+            {
+              player.WearedArmors[selectedY] = Item.GetAir() ;
+              ReplaceItem(itemAirCell, wearedWeapon);
+            }
+          }
+          break;
+      }
+    }
+
+    private bool UndressItem(ItemType itemType, int selectY, Material materialToUndress)
+    {
+      Item itemToUndress = new Item(materialToUndress);
+      while (true)
+      {
+        WriteCurrentLocation();
+        WriteColor(itemToUndress.Name, Cyan);
+        WriteColor("을(를) 벗으시겠습니까?");
+        switch (SelectScreen("", new string[] { "벗기\n", "취소\n" }, new ConsoleKey[] { Enter, D2 }))
+        {
+          case Enter:
+            WriteCurrentLocation();
+            WriteColor(itemToUndress.Name, Cyan);
+            WriteColor("(을)를 벗었습니다.");
+            ReadKey();
+            return true;
+          case D2:
+            return false;
+        }
+      }
+    }
+
   }
 }
