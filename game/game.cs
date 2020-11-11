@@ -57,7 +57,6 @@ namespace GAMJA.Game
 
 
     static Player myPlayer;
-    static Inven myInventory;
 
     public static void CharacterSetting()
     {
@@ -71,33 +70,32 @@ namespace GAMJA.Game
         if (readName != "")
         {
           myPlayer = new Player(readName, 1, 50, 30, 10);
-          myInventory = new Inven(12, 12, myPlayer);
           whileA = false;
         }
       }
 
       CWTitle();
       WriteLineColor("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
-      WriteLineColor(myPlayer.GetInfo, Black, White);
+      myPlayer.GetInfo();
       ReadKey();
     }
 
     public static void OpenInventory()
     {
-      myInventory.Open();
+      myPlayer.Inventory.Open();
     }
 
     public static void OpenPlayerStatus()
     {
       WriteCurrentLocation();
-      WriteColor(myPlayer.GetInfo, Black, White);
+      myPlayer.GetInfo();
       ReadKey();
     }
     public static void KillMe()
     {
       Clear();
       WriteColor(ConsoleText.KillMeText, DarkRed);
-      Beep(1000, 5000);
+      Beep(1000, 2000);
       ReadKey();
       Environment.Exit(0);
     }

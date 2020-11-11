@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\IDamageable.cs" />
+    <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="Entity\ILevelable.cs" />
+    <Compile Include="Entity\IWearable.cs" />
     <Compile Include="Game\ConsoleFunc.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ConsoleText.Designer.cs">

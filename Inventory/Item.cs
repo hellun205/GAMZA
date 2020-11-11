@@ -2,8 +2,9 @@
 {
   class Item
   {
-    private string pName;
-    private string pLore;
+    private string name;
+    private string lore;
+    private string[] descripsion;
     private ItemType type = ItemType.NONE;
     private ArmorType armorType;
     private WeaponType weaponType;
@@ -12,11 +13,13 @@
     private int at;
 
 
-    public string Name { get => pName; set => pName = value; }
-    public string Lore { get => pLore; set => pLore = value; }
+    public string Name { get => name; set => name = value; }
+    public string Lore { get => lore; set => lore = value; }
+    public string[] Descripsion { get => descripsion; set => descripsion = value; }
     public ItemType Type { get => type; set => type = value; }
     public ArmorType ArmorType { get => armorType; set => armorType = value; }
     public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
+    
 
     //public int Def { get => def; set => def = value; }
     public Item() { }

@@ -92,7 +92,7 @@ namespace GAMJA.Inventory
 
       while (true)
       {
-        int maxY = player.WearedArmors.Length + player.WearedWeapons.Length;
+        int maxY = player.WearedArmors.Count + player.WearedWeapons.Count;
         WriteCurrentLocation();
         RenderEquipment(sY);
 
@@ -115,17 +115,17 @@ namespace GAMJA.Inventory
           case Enter:
 
             Material material = Item.GetAir();
-            if (sY < player.WearedArmors.Length)
+            if (sY < player.WearedArmors.Count)
             {
               material = player.WearedArmors[sY];
               armorSY = sY;
               EquipmentInteract(ItemType.ARMOR, sY);
             }
-            else if (sY >= player.WearedArmors.Length)
+            else if (sY >= player.WearedArmors.Count)
             {
-              material = player.WearedWeapons[sY - player.WearedArmors.Length];
-              weaponSY = sY - player.WearedArmors.Length;
-              EquipmentInteract(ItemType.WEAPON, sY - player.WearedArmors.Length);
+              material = player.WearedWeapons[sY - player.WearedArmors.Count];
+              weaponSY = sY - player.WearedArmors.Count;
+              EquipmentInteract(ItemType.WEAPON, sY - player.WearedArmors.Count);
             }
 
             break;
@@ -250,7 +250,7 @@ namespace GAMJA.Inventory
             break;
           case ItemType.WEAPON:
             item = new Item(player.WearedWeapons[selectedY]);
-            RenderEquipment(selectedY + player.WearedArmors.Length);
+            RenderEquipment(selectedY + player.WearedArmors.Count);
             switch (SelectScreen("무엇을 하시겠습니까?", new string[] { "아이템 정보 보기\n", "무기 벗기\n", "뒤로 가기\n" }))
             {
               case D1:
@@ -305,16 +305,16 @@ namespace GAMJA.Inventory
       WriteColor($"  {item.Name} \n", Black, White);
       WriteColor($"    {item.Type.ToString()}", Yellow);
       WriteColor($" {item.Lore} \n", Gray);
-      WriteColor($"    ");
 
       switch (item.Type)
       {
         case ItemType.NONE:
           break;
         case ItemType.ARMOR:
+
           break;
       }
-      Console.ReadKey();
+      ReadKey();
     }
 
     private void WearItem(int x, int y)

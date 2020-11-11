@@ -37,8 +37,8 @@ namespace GAMJA.Game
 
     private static void TownField()
     {
-      myInventory.ReplaceItem(0, 0, Material.TESTARMOR1);
-      myInventory.ReplaceItem(1, 0, Material.TESTWEAPON1);
+      myPlayer.Inventory.ReplaceItem(0, 0, Material.TESTARMOR1);
+      myPlayer.Inventory.ReplaceItem(1, 0, Material.TESTWEAPON1);
 
       myPlayer.WearedArmors[(int)ArmorType.UPPERBODY] = Material.TESTARMOR2;
       myPlayer.WearedWeapons[(int)WeaponType.GENERAL] = Material.TESTWEAPON2;

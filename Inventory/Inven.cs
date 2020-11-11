@@ -16,7 +16,6 @@ namespace GAMJA.Inventory
 
     public int itemSX = 0;
     public int itemSY = 0;
-
     public int armorSY = 0;
     public int weaponSY = 0;
 
@@ -26,12 +25,10 @@ namespace GAMJA.Inventory
       if (x <= 0 || y <= 0)
         throw new InvalidInventorySizeException();
 
-      width = x - 1;
-      height = y - 1;
+      width = x;
+      height = y;
       items = new List<Material>();
       ClearInventory();
-
-
 
       this.player = player;
     }
@@ -94,7 +91,9 @@ namespace GAMJA.Inventory
       ConsoleColor fgColor = White;
       ConsoleColor bgColor = Black;
 
-      WriteLineColor($"「{player.name}」의 인벤토리\n");
+      WriteColor($"「 ");
+      WriteColor($"{player.Name}", Cyan);
+      WriteColor($" 」의 인벤토리\n");
 
       for (int y = 0; y < height; y++)
       {
@@ -118,7 +117,10 @@ namespace GAMJA.Inventory
       ConsoleColor fgColor = White;
       ConsoleColor bgColor = Black;
 
-      WriteLineColor($"「{player.name}」의 인벤토리\n");
+      WriteColor($"「 ");
+      WriteColor($"{player.Name}", Cyan);
+      WriteColor($" 」의 인벤토리\n");
+
       for (int y = 0; y < height; y++)
       {
         for (int x = 0; x < width; x++)
@@ -163,9 +165,11 @@ namespace GAMJA.Inventory
       ConsoleColor fgColor = White;
       ConsoleColor bgColor = Black;
 
-      WriteLineColor($"「{player.name}」의 장비\n");
+      WriteColor($"「 ");
+      WriteColor($"{player.Name}", Cyan);
+      WriteColor($" 」의 장비\n");
 
-      for (int i = 0; i < player.WearedArmors.Length; i++)
+      for (int i = 0; i < player.WearedArmors.Count; i++)
       {
         WriteColor("\t");
         if (player.WearedArmors[i] == Item.GetAir())
@@ -174,7 +178,7 @@ namespace GAMJA.Inventory
           WriteColor("■\n", fgColor, bgColor);
       }
       WriteColor("\n");
-      for (int i = 0; i < player.WearedWeapons.Length; i++)
+      for (int i = 0; i < player.WearedWeapons.Count; i++)
       {
         //WriteColor("\t");
         if (player.WearedWeapons[i] == Item.GetAir())
@@ -189,9 +193,11 @@ namespace GAMJA.Inventory
       ConsoleColor fgColor = White;
       ConsoleColor bgColor = Black;
 
-      WriteLineColor($"「{player.name}」의 장비\n");
+      WriteColor($"「 ");
+      WriteColor($"{player.Name}", Cyan);
+      WriteColor($" 」의 장비\n");
 
-      for (int y = 0; y < player.WearedArmors.Length; y++)
+      for (int y = 0; y < player.WearedArmors.Count; y++)
       {
         WriteColor("\t");
         if (player.WearedArmors[y] == Item.GetAir())
@@ -211,10 +217,10 @@ namespace GAMJA.Inventory
       }
       WriteColor("\n");
 
-      for (int y = player.WearedArmors.Length; y < player.WearedWeapons.Length + player.WearedArmors.Length; y++)
+      for (int y = player.WearedArmors.Count; y < player.WearedWeapons.Count + player.WearedArmors.Count; y++)
       {
         WriteColor("\t");
-        if (player.WearedWeapons[y - player.WearedArmors.Length] == Item.GetAir())
+        if (player.WearedWeapons[y - player.WearedArmors.Count] == Item.GetAir())
         {
           if (y == selectedY)
             WriteColor("□\n", fgColor, bgColor);
@@ -231,7 +237,7 @@ namespace GAMJA.Inventory
       }
       armorSY = selectedY;
 
-      if (selectedY < player.WearedArmors.Length)
+      if (selectedY < player.WearedArmors.Count)
       {
         if (player.WearedArmors[selectedY] == Item.GetAir())
         {
@@ -246,16 +252,16 @@ namespace GAMJA.Inventory
           WriteColor($" {sItem.Lore}\n", DarkGray);
         }
       }
-      else if (selectedY >= player.WearedArmors.Length)
+      else if (selectedY >= player.WearedArmors.Count)
       {
-        if (player.WearedWeapons[selectedY - player.WearedArmors.Length] == Item.GetAir())
+        if (player.WearedWeapons[selectedY - player.WearedArmors.Count] == Item.GetAir())
         {
           WriteColor($"비어 있음\n");
           WriteColor($"  아이템이 없습니다.\n", DarkGray);
         }
         else
         {
-          Item sItem = new Item(player.WearedWeapons[selectedY - player.WearedArmors.Length]);
+          Item sItem = new Item(player.WearedWeapons[selectedY - player.WearedArmors.Count]);
           WriteColor($"{sItem.Name}\n");
           WriteColor($"  {sItem.Type.ToString() }", Yellow);
           WriteColor($" {sItem.Lore}\n", DarkGray);
