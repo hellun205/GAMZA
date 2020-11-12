@@ -9,10 +9,6 @@
     private ArmorType armorType;
     private WeaponType weaponType;
 
-    //private int def;
-    private int at;
-
-
     public string Name { get => name; set => name = value; }
     public string Lore { get => lore; set => lore = value; }
     public string[] Descripsion { get => descripsion; set => descripsion = value; }

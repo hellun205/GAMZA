@@ -57,6 +57,7 @@
     <Compile Include="Game\Game.Map.cs" />
     <Compile Include="Game\MapList.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="Game\Profile.cs" />
     <Compile Include="Inventory\Enum\ArmorType.cs" />
     <Compile Include="Inventory\Enum\ItemType.cs" />
     <Compile Include="Inventory\Enum\WeaponType.cs" />

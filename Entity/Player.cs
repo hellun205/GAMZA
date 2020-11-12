@@ -6,7 +6,8 @@ using static System.ConsoleColor;
 
 namespace GAMJA.Entity
 {
-  class Player : IEntity, IWearable, IDamageable, ILevelable
+  [Serializable]
+  class Player : IEntity, IWearable, IDamageable, ILevelable 
   {
     public Inven Inventory;
 
@@ -20,10 +21,11 @@ namespace GAMJA.Entity
         name = value;
         if (value.ToLower() == "yeahx4" || value.ToLower() == "khj")
         {
-          InitialMaxHp = 750;
-          InitialMaxMp = 325;
-          InitialAt = 75;
-          Level = 30;
+          InitialMaxHp = 100;
+          InitialMaxMp = 60;
+          InitialAt = 7;
+          InitialDef = 5;
+          Level = 10;
         }
         if (value.ToLower() == "mp")
         {
@@ -85,7 +87,7 @@ namespace GAMJA.Entity
     public int DefPerLevel { get => InitialDef + (InitialDef / 10) * (Level - 1); }
 
     private long exp;
-    private int level;
+    private int level = 1;
 
     public long Exp { get => exp; set => exp = value; }
 
@@ -94,24 +96,15 @@ namespace GAMJA.Entity
       get => level;
       set
       {
-        if (value <= 99 && value != 0)
+        if (value <= 99 && value > 0)
         {
           level = value;
         }
       }
     }
 
-    public Player(string name, int level, int hp, int mp, int at)
+    public Player()
     {
-      Inventory = new Inven(12, 12, this);
-      InitialMaxHp = hp;
-      InitialMaxMp = mp;
-      InitialAt = at;
-      Level = level;
-      Name = name;
-      Hp = MaxHp;
-      Mp = MaxMp;
-
       ClearWearingItems();
     }
 
@@ -152,6 +145,7 @@ namespace GAMJA.Entity
 
       WriteColor($"\t 공격력 : ");
       WriteColor($"{At}\n", Green);
+      Console.ReadKey();
     }
   }
 }

@@ -1,8 +1,8 @@
 ﻿using GAMJA.Inventory;
 using System;
 using static GAMJA.Game.ConsoleFunc;
-using static System.Console;
 using static System.ConsoleKey;
+using static System.Console;
 
 namespace GAMJA.Game
 {
@@ -20,6 +20,10 @@ namespace GAMJA.Game
           case MapList.None:
             break;
           case MapList.TownField:
+            WriteColor("마을", ConsoleColor.White);
+            WriteColor("필드", ConsoleColor.Yellow);
+            WriteColor("(으)로 이동합니다.", ConsoleColor.White);
+            ReadKey();
             TownField();
             break;
           default:
@@ -37,8 +41,7 @@ namespace GAMJA.Game
 
     private static void TownField()
     {
-      myPlayer.Inventory.ReplaceItem(0, 0, Material.TESTARMOR1);
-      myPlayer.Inventory.ReplaceItem(1, 0, Material.TESTWEAPON1);
+
 
       myPlayer.WearedArmors[(int)ArmorType.UPPERBODY] = Material.TESTARMOR2;
       myPlayer.WearedWeapons[(int)WeaponType.GENERAL] = Material.TESTWEAPON2;
@@ -61,9 +64,6 @@ namespace GAMJA.Game
           case D4:
             GameExit();
             break;
-          case LeftWindows:
-            KillMe();
-            return;
         }
       }
     }

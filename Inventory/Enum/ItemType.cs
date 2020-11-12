@@ -5,7 +5,6 @@
     NONE,
     ITEM,
     POTION,
-    STATPOTION,
     ARMOR,
     WEAPON
   }

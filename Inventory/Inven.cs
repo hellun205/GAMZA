@@ -7,6 +7,7 @@ using static System.ConsoleColor;
 
 namespace GAMJA.Inventory
 {
+  [Serializable]
   partial class Inven
   {
     List<Material> items;

@@ -29,8 +29,8 @@ namespace GAMJA.Game
         WriteColor($"{answerKeys[i].ToString()} . {answers[i]}");
 
       ConsoleKey ReadKey = Console.ReadKey().Key;
-      if (ReadKey == K)
-        InGame.KillMe();
+      //if (ReadKey == K)
+      //  InGame.KillMe();
 
       return ReadKey;
     }

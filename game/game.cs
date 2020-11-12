@@ -1,15 +1,15 @@
-﻿using System;
-using GAMJA.Entity;
-using GAMJA.Inventory;
+﻿using GAMJA.Entity;
+using System;
 using static GAMJA.Game.ConsoleFunc;
+using static GAMJA.Game.Profile.Profile;
 using static System.Console;
 using static System.ConsoleKey;
-using static System.ConsoleColor;
 
 namespace GAMJA.Game
 {
   static partial class InGame
   {
+    public static Player myPlayer;
 
     public static void GameEx()
     {
@@ -21,17 +21,36 @@ namespace GAMJA.Game
     {
       while (true)
       {
+        Player user;
         CWTitle();
-        switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "게임 시작\n", "게임 종료\n" }))
+        switch (SelectScreen("\n감자 MUD RPG 게임 v.0.01\n", new string[] { "새로 시작\n", "이어서 시작\n", "게임 종료\n" }))
         {
           case D1:
-            CharacterSetting();
             CWTitle();
-            WriteLineColor(" 마을 필드로 이동합니다.", ConsoleColor.DarkGreen);
-            ReadKey();
-            CurrentMap = MapList.TownField;
-            return;
+            user = CreateUser();
+            if (user != null)
+            {
+              myPlayer = user;
+              myPlayer.GetInfo();
+              CWTitle();
+              CurrentMap = MapList.TownField;
+              return;
+            }
+            else break;
+
           case D2:
+            CWTitle();
+            user = GetPlayer();
+            if (user != null)
+            {
+              myPlayer = user;
+              myPlayer.GetInfo();
+              CWTitle();
+              CurrentMap = MapList.TownField;
+              return;
+            }
+            else break;
+          case D3:
             GameExit();
             break;
         }
@@ -55,31 +74,6 @@ namespace GAMJA.Game
       }
     }
 
-
-    static Player myPlayer;
-
-    public static void CharacterSetting()
-    {
-      bool whileA = true;
-      while (whileA)
-      {
-        CWTitle();
-        WriteLineColor("지금부터 당신의 캐릭터를 생성합니다.");
-
-        string readName = ReadTextScreen("캐릭터의 이름을 설정하시오.");
-        if (readName != "")
-        {
-          myPlayer = new Player(readName, 1, 50, 30, 10);
-          whileA = false;
-        }
-      }
-
-      CWTitle();
-      WriteLineColor("캐릭터 생성을 성공적으로 마쳤습니다. \n\n");
-      myPlayer.GetInfo();
-      ReadKey();
-    }
-
     public static void OpenInventory()
     {
       myPlayer.Inventory.Open();
@@ -91,13 +85,13 @@ namespace GAMJA.Game
       myPlayer.GetInfo();
       ReadKey();
     }
-    public static void KillMe()
-    {
-      Clear();
-      WriteColor(ConsoleText.KillMeText, DarkRed);
-      Beep(1000, 2000);
-      ReadKey();
-      Environment.Exit(0);
-    }
+    //public static void KillMe()
+    //{
+    //  Clear();
+    //  WriteColor(ConsoleText.KillMeText, DarkRed);
+    //  Beep(1000, 2000);
+    //  ReadKey();
+    //  Environment.Exit(0);
+    //}
   }
 }
